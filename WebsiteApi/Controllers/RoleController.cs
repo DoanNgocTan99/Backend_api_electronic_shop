@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebsiteApi.Helpers;
 using WebsiteApi.Repositories.IRepositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,6 +19,7 @@ namespace WebsiteApi.Controllers
         }
 
         // GET: api/<RoleController>
+        [Authorize("USER")]
         [HttpGet]
         public IActionResult Get()
         {

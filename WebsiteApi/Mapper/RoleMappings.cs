@@ -10,7 +10,7 @@ namespace WebsiteApi.Mapper
     {
         public RoleMappings()
         {
-            CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<Role, RoleDto>();
         }
     }
 }
