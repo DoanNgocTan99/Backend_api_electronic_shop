@@ -11,6 +11,7 @@ namespace WebsiteApi.Mapper
         public RoleMappings()
         {
             CreateMap<Role, RoleDto>();
+            CreateMap<RoleDto, Role>();
         }
     }
 }

@@ -77,9 +77,16 @@ namespace WebsiteApi
                     }
                 });
             });
-            //services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
+            //Service
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IBrandRepository, BrandRepository>();
+
+            //Repositories
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IBrandService, BrandService>();
+           
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutoMapper(typeof(RoleMappings));

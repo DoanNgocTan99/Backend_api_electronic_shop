@@ -25,7 +25,8 @@ namespace WebsiteApi.Services
             var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Typ, user.Role.Name)
+                new Claim(JwtRegisteredClaimNames.Typ, user.Role.Name),
+                new Claim(JwtRegisteredClaimNames.Iss, user.Role.Id.ToString())
             };
 
             var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));

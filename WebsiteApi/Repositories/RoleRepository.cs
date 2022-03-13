@@ -12,9 +12,19 @@ namespace WebsiteApi.Repositories
         {
             _context = context;
         }
-        public ICollection<Role> GetAll()
+        public IEnumerable<Role> GetAll()
         {
             return _context.Roles.ToList();
+        }
+
+        public Role Update(int id, Role role)
+        {
+            var _role = _context.Roles.Where(x => x.Id == id).FirstOrDefault();
+            _role.Name = role.Name;
+            _role.Description = role.Description;
+            _role.ModifiedDate = System.DateTime.Now;
+            _context.SaveChanges();
+            return _role;
         }
     }
 }

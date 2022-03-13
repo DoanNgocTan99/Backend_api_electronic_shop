@@ -5,7 +5,7 @@ namespace WebsiteApi.Repositories.IRepositories
 {
     public interface IRoleRepository
     {
-        ICollection<Role> GetAll();
-
+        IEnumerable<Role> GetAll();
+        Role Update(int id, Role role);
     }
 }

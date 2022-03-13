@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,7 +14,7 @@ namespace WebsiteApi.Controllers
     {
         private readonly ApiContext _context;
         private readonly ITokenService _tokenService;
-        public AccountsController(ApiContext context, ITokenService tokenService)
+        public AccountsController(ApiContext context, ITokenService tokenService, IUserService userService)
         {
             _context = context;
             _tokenService = tokenService;
@@ -47,16 +48,27 @@ namespace WebsiteApi.Controllers
                 Token = _tokenService.CreateToken(user)
             });
         }
-
+        /// <summary>
+        /// Provide accounts for users
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public ActionResult<string> Register(RegisterDto registerDto)
         {
             registerDto.UserName.ToLower();
-            if (_context.Users.Any(u => u.UserName == registerDto.UserName))
+            if (_context.Users.Any(u => u.UserName.Equals(registerDto.UserName)))
             {
                 return BadRequest("Username is existed!");
             }
-
+            if (_context.Users.Any(u => u.Email.Equals(registerDto.Email)))
+            {
+                return BadRequest("Email is existed!");
+            }
+            if (_context.Users.Any(u => u.Phone.Equals(registerDto.Phone)))
+            {
+                return BadRequest("Phone is existed!");
+            }
             using var hmac = new HMACSHA512();
 
             var user = new User
@@ -67,18 +79,20 @@ namespace WebsiteApi.Controllers
                 Email = registerDto.Email,
                 Phone = registerDto.Phone,
                 Address = registerDto.Address,
-                FullName = registerDto.FullName
-
+                FullName = registerDto.FullName,
+                CreatedDate = DateTime.Now,
+                Del = false
             };
-            user.RoleId = _context.Roles.Where(x => string.Equals(x.Name, "ADMIN")).FirstOrDefault().Id;
+            user.RoleId = _context.Roles.Where(x => string.Equals(x.Name, "USER")).FirstOrDefault().Id;
             _context.Users.Add(user);
             _context.SaveChanges();
 
-
             return Ok(new UserResponseDto
             {
+                Username = user.UserName,
+                Role = user.Role.Name,
                 Token = _tokenService.CreateToken(user)
-            }); ;
+            });
         }
         #endregion
     }
