@@ -19,6 +19,11 @@ namespace WebsiteApi.Services
             this._mapper = mapper;
         }
 
+        public string ChangePassword(int id, string password)
+        {
+            return _userRepository.ChangePassword(id,password);
+        }
+
         public bool check(string Email = "", string UserName = "", string Phone = "")
         {
             return _userRepository.check(Email, UserName, Phone);

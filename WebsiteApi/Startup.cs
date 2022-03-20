@@ -54,11 +54,11 @@ namespace WebsiteApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebsiteApi", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
-                    Name="Authorization",
+                    Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
-                    In= ParameterLocation.Header,
+                    In = ParameterLocation.Header,
                     Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -81,16 +81,18 @@ namespace WebsiteApi
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IBrandRepository, BrandRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
 
             //Repositories
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBrandService, BrandService>();
-           
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IProductService, ProductService>();
+
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddAutoMapper(typeof(RoleMappings));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

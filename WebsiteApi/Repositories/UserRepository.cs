@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using WebsiteApi.CusException;
 using WebsiteApi.Model.Entity;
 using WebsiteApi.Repositories.IRepositories;
@@ -13,6 +15,21 @@ namespace WebsiteApi.Repositories
         public UserRepository(ApiContext context)
         {
             this._context = context;
+        }
+
+        public string ChangePassword(int id, string password)
+        {
+            var user = _context.Users.Where(x => x.Id == id).FirstOrDefault();
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            for (var i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i]) throw new Exception("Invalid Password");
+            }
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            user.PasswordSalt = hmac.Key;
+            _context.SaveChanges();
+            return "Change password successfully";
         }
 
         /// <summary>
