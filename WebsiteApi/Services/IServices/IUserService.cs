@@ -11,6 +11,8 @@ namespace WebsiteApi.Services.IServices
         string Delete(int id);
         bool check(string Email = "", string UserName = "", string Phone = "");
         UserDto Update(int id, UserDto user);
+        string ChangePassword(int id, string password);
+
 
     }
 }

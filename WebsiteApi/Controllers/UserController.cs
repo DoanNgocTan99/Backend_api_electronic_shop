@@ -67,6 +67,17 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+        [HttpPost("ChangePassword/{id}")]
+        public ActionResult<string> ChangePassword(int id, [FromBody] string password)
+        {
+            try
+            {
+                return Ok(_userService.ChangePassword(id, password));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

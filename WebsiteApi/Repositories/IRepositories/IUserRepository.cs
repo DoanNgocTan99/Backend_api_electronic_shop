@@ -10,5 +10,6 @@ namespace WebsiteApi.Repositories.IRepositories
         string Delete(int id);
         bool check(string Email = "", string UserName = "", string Phone = "");
         User Update(int id, User user);
+        string ChangePassword(int id, string password);
     }
 }
