@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using WebsiteApi.Helpers;
 using WebsiteApi.Model.Dtos;
 using WebsiteApi.Services.IServices;
@@ -56,10 +57,11 @@ namespace WebsiteApi.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public ActionResult<int> Update(int id, [FromBody] UserDto value)
+        public ActionResult<int> Update(int id, [FromForm] UserDto value)
         {
             try
             {
+                value.ImagePath = this.SaveImage(value.ImageFile);
                 return Ok(_userService.Update(id, value));
             }
             catch (Exception ex)
@@ -78,6 +80,25 @@ namespace WebsiteApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [NonAction]
+        private string SaveImage(IFormFile imageFile)
+        {
+            if (imageFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
+
+                string extension = Path.GetExtension(imageFile.FileName);
+                fileName = fileName + extension;
+                string pathLocal = Directory.GetCurrentDirectory();
+                string path = pathLocal + fileName;
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+                return path;
+            }
+            return String.Empty;
         }
     }
 }

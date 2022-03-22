@@ -8,7 +8,7 @@ namespace WebsiteApi.Model.Entity
     {
         public Comment()
         {
-            Images = new HashSet<Image>();
+            CommentImages = new HashSet<CommentImage>();
         }
         [Key]
         public long Id { get; set; }
@@ -28,6 +28,6 @@ namespace WebsiteApi.Model.Entity
         public virtual User User { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<CommentImage> CommentImages { get; set; }
     }
 }

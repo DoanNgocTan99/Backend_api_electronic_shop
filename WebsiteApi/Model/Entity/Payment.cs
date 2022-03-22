@@ -11,7 +11,7 @@ namespace WebsiteApi.Model.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Payment()
         {
-            OrderDetails = new HashSet<OrderDetail>();
+            Orders = new HashSet<Order>();
         }
         [Key]
         public long Id { get; set; }
@@ -39,6 +39,6 @@ namespace WebsiteApi.Model.Entity
         public bool Del { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<Order> Orders{ get; set; }
     }
 }

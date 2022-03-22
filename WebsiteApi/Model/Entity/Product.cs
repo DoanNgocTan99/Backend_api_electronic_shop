@@ -12,9 +12,11 @@ namespace WebsiteApi.Model.Entity
         public Product()
         {
             Comments = new HashSet<Comment>();
-            Images = new HashSet<Image>();
             OrderDetails = new HashSet<OrderDetail>();
             Transactionns = new HashSet<Transaction>();
+            Carts = new HashSet<Cart>();
+            Ratings = new HashSet<Rating>();
+            ProductImages = new HashSet<ProductImage>();
         }
 
         [Key]
@@ -74,12 +76,14 @@ namespace WebsiteApi.Model.Entity
         public virtual ICollection<Comment> Comments { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction> Transactionns { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
     }
 }

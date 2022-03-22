@@ -2,25 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebsiteApi.Model.Entity
 {
-    [Table("Image")]
-    public class Image
+    [Table("Rating")]
+    public class Rating
     {
-        public Image()
-        {
-            ProductImages = new HashSet<ProductImage>();
-            CommentImages = new HashSet<CommentImage>();
-        }
         [Key]
         public long Id { get; set; }
+        public int Rate { get; set; }
 
-        [Required]
-        [StringLength(250)]
-        public string Path { get; set; }
+        public long  ProductId { get; set; }
+        public virtual Product Product { get; set; }
 
-        public string Label { get; set; }
         [StringLength(250)]
         public string CreatedBy { get; set; }
 
@@ -32,9 +25,5 @@ namespace WebsiteApi.Model.Entity
         public DateTime? CreatedDate { get; set; }
 
         public bool Del { get; set; }
-
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
-        public virtual ICollection<CommentImage> CommentImages { get; set; }
-
     }
 }

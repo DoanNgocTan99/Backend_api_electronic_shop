@@ -12,10 +12,9 @@ namespace WebsiteApi.Model.Entity
         public User()
         {
             Comments = new HashSet<Comment>();
-            Images = new HashSet<Image>();
             Orders = new HashSet<Order>();
-            OrderDetails = new HashSet<OrderDetail>();
             Transactions = new HashSet<Transaction>();
+            Carts = new HashSet<Cart>();
         }
         [Key]
         public long Id { get; set; }
@@ -43,6 +42,7 @@ namespace WebsiteApi.Model.Entity
 
         [StringLength(250)]
         public string Gender { get; set; }
+        public string  ImagePath { get; set; }
 
         public DateTime? DOB { get; set; }
 
@@ -69,14 +69,12 @@ namespace WebsiteApi.Model.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public virtual ICollection<Cart> Carts { get; set; }
 
         public virtual Role Role { get; set; }
 

@@ -1,25 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebsiteApi.Model.Entity
 {
-    [Table("OrderDetail")]
-    public class OrderDetail
+    [Table("CommentImage")]
+    public class CommentImage
     {
         [Key]
         public long Id { get; set; }
-
-        public long OrderId { get; set; }
-
-        public long ProductId { get; set; }
-
-
-
         [Required]
-        [StringLength(250)]
-        public string Message { get; set; }
+        public long ImageId { get; set; }
+        public virtual Image Image { get; set; }
 
+        public long CommentId { get; set; }
+        public virtual Comment Comment { get; set; }
         [StringLength(250)]
         public string CreatedBy { get; set; }
 
@@ -29,12 +23,6 @@ namespace WebsiteApi.Model.Entity
         public DateTime? ModifiedDate { get; set; }
 
         public DateTime? CreatedDate { get; set; }
-
-        public bool Del { get; set; }
-
-        public virtual Order Order { get; set; }
-
-        public virtual Product Product { get; set; }
-
+        public bool IdDel { get; set; }
     }
 }

@@ -19,6 +19,9 @@ namespace WebsiteApi.Model.Entity
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
+        public virtual DbSet<TrackingOrder> TrackingOrders { get; set; }
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,10 +30,6 @@ namespace WebsiteApi.Model.Entity
                 .WithOne(e => e.Brand)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Images)
-                .WithOne(e => e.Category)
-                .HasForeignKey(e => e.CateId);
 
             modelBuilder.Entity<Image>()
                 .Property(e => e.Path)
@@ -43,13 +42,13 @@ namespace WebsiteApi.Model.Entity
             modelBuilder.Entity<Order>()
                 .HasMany(e => e.OrderDetails)
                 .WithOne(e => e.Order)
-                .HasForeignKey(e => e.OrderIdDetail)
+                .HasForeignKey(e => e.OrderId)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Payment>()
-                .HasMany(e => e.OrderDetails)
+                .HasMany(e => e.Orders)
                 .WithOne(e => e.Payment)
-                .HasForeignKey(e => e.PaymentIdDetail)
+                .HasForeignKey(e => e.PaymentId)
                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Product>()
@@ -61,15 +60,9 @@ namespace WebsiteApi.Model.Entity
             //.HasPrecision(2, 0);
 
             modelBuilder.Entity<Product>()
-                .HasMany(e => e.Images)
-                .WithOne(e => e.Product)
-                .HasForeignKey(e => e.ProId)
-               .OnDelete(DeleteBehavior.ClientCascade);
-
-            modelBuilder.Entity<Product>()
                 .HasMany(e => e.OrderDetails)
                 .WithOne(e => e.Product)
-                .HasForeignKey(e => e.ProdIdDetail)
+                .HasForeignKey(e => e.ProductId)
               .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Product>()
@@ -77,16 +70,25 @@ namespace WebsiteApi.Model.Entity
                 .WithOne(e => e.Product)
                 .HasForeignKey(e => e.ProdIdTransaction);
 
+            modelBuilder.Entity<Product>()
+               .HasMany(e => e.Carts)
+               .WithOne(e => e.Product)
+               .HasForeignKey(e => e.ProductId);
+
             modelBuilder.Entity<User>()
-                .HasMany(e => e.OrderDetails)
+                .HasMany(e => e.Orders)
                 .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserIdDetail)
+                .HasForeignKey(e => e.UserId)
                  .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Transactions)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserIdTransaction);
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Carts)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId);
         }
         #endregion
     }

@@ -11,6 +11,7 @@ namespace WebsiteApi.Model.Entity
         public Order()
         {
             OrderDetails = new HashSet<OrderDetail>();
+            TrackingOrders = new HashSet<TrackingOrder>();
         }
 
         [Key]
@@ -36,7 +37,12 @@ namespace WebsiteApi.Model.Entity
 
         public virtual User User { get; set; }
 
+        public long PaymentId { get; set; }
+        public virtual Payment Payment { get; set; }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<TrackingOrder> TrackingOrders { get; set; }
     }
 }
