@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebsiteApi.Model.Dtos;
 using WebsiteApi.Services.IServices;
@@ -39,6 +40,7 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        [Authorize("ADMIN")]
         [HttpPost("Create")]
         public ActionResult<ProductDto> Post([FromBody] ProductDto value)
         {
@@ -51,7 +53,7 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<ProductDto> Update(int id, [FromBody] ProductDto value)
         {
@@ -64,7 +66,7 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize("ADMIN")]
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
         {

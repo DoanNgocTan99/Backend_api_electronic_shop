@@ -110,6 +110,28 @@ namespace WebsiteApi.Repositories
         /// <returns></returns>
         public User Update(int id, User user)
         {
+            user.UserName.ToLower();
+            if (!_context.Users.Any(u => u.UserName.Equals(user.UserName)))
+            {
+                if (!check(UserName: user.UserName))
+                {
+                    throw new IsExist("Username is existed!");
+                }
+            }
+            if (!_context.Users.Any(u => u.Email.Equals(user.Email)))
+            {
+                if (!check(Email: user.Email))
+                {
+                    throw new IsExist("Email is existed!");
+                }
+            }
+            if (!_context.Users.Any(u => u.Phone.Equals(user.Phone)))
+            {
+                if (!check(Phone: user.Phone))
+                {
+                    throw new IsExist("Phone is existed!");
+                }
+            }
             var u = this.GetById(id);
             u.FullName = user.FullName;
             u.UserName = user.UserName;
@@ -118,6 +140,7 @@ namespace WebsiteApi.Repositories
             u.Gender = user.Gender;
             u.DOB = user.DOB;
             u.Address = user.Address;
+            u.ImagePath = user.ImagePath;
             u.ModifiedDate = DateTime.Now;
             _context.SaveChanges();
             return u;

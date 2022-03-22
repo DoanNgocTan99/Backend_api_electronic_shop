@@ -9,7 +9,6 @@ namespace WebsiteApi.Model.Entity
     {
         public Category()
         {
-            Images = new HashSet<Image>();
             Products = new HashSet<Product>();
         }
         [Key]
@@ -24,6 +23,7 @@ namespace WebsiteApi.Model.Entity
         public string Description { get; set; }
 
         public bool IsActive { get; set; }
+        public string  ImagePath { get; set; }
 
         [StringLength(250)]
         public string CreatedBy { get; set; }
@@ -37,8 +37,6 @@ namespace WebsiteApi.Model.Entity
 
         public bool Del { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
