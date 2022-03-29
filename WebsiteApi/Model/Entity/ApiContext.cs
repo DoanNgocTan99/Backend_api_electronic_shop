@@ -11,7 +11,6 @@ namespace WebsiteApi.Model.Entity
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
@@ -31,9 +30,7 @@ namespace WebsiteApi.Model.Entity
                 .OnDelete(DeleteBehavior.ClientCascade);
 
 
-            modelBuilder.Entity<Image>()
-                .Property(e => e.Path)
-                .IsUnicode(false);
+
 
             modelBuilder.Entity<Order>()
                 .Property(e => e.Total);
