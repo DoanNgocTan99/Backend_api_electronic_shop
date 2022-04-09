@@ -34,7 +34,7 @@ namespace WebsiteApi.Controllers
         {
             try
             {
-                
+
                 return Ok(_categoryService.GetById(id));
             }
             catch (System.Exception ex)
@@ -67,8 +67,7 @@ namespace WebsiteApi.Controllers
                 string extension = Path.GetExtension(imageFile.FileName);
                 fileName = fileName + extension;
                 string pathLocal = Directory.GetCurrentDirectory();
-                pathLocal = pathLocal.Substring(0, pathLocal.Length - 42);
-                string path = pathLocal +  fileName;
+                string path = pathLocal + fileName;
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     imageFile.CopyTo(stream);
@@ -77,8 +76,8 @@ namespace WebsiteApi.Controllers
             }
             return String.Empty;
         }
-        [Authorize("ADMIN")]
 
+        [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<CategoryDto> Update(int id, [FromForm] CategoryDto value)
         {
