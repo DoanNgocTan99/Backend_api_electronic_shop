@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
 
 namespace WebsiteApi.Model.Dtos
 {
@@ -43,6 +45,8 @@ namespace WebsiteApi.Model.Dtos
         public long? BrandId { get; set; }
 
         public long CategoryId { get; set; }
+        public string Path { get; set; }
+        public IFormFile ImageFile { get; set; }
 
     }
 }

@@ -84,6 +84,7 @@ namespace WebsiteApi
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICartRepository, CartRepository>();
+            services.AddTransient<IImageRepository, ImageRepository>();
 
             //Repositories
             services.AddTransient<ITokenService, TokenService>();
@@ -92,6 +93,7 @@ namespace WebsiteApi
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICartService, CartService>();
+            services.AddTransient<IProductImageService, ProductImageService>();
 
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(RoleMappings));

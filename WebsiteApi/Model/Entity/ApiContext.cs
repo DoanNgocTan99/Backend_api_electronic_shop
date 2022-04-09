@@ -21,6 +21,9 @@ namespace WebsiteApi.Model.Entity
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<TrackingOrder> TrackingOrders { get; set; }
+        public virtual DbSet<CommentImage> CommentImages { get; set; }
+        public virtual DbSet<ProductImage> ProductImages { get; set; }
+
         #region Required
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
