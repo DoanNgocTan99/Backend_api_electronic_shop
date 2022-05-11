@@ -29,12 +29,66 @@ namespace WebsiteApi.Services
 
         public IEnumerable<ProductDto> GetAll()
         {
-            return _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
+            var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
+            foreach (var item in productdto)
+            {
+                item.Path = _productRepository.GetPath(Convert.ToInt32(item.Id));
+                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
+            }
+            return productdto;
         }
 
+        public IEnumerable<ProductDto> GetAllByCategory(string categoryName)
+        {
+            List<ProductDto> pro = new List<ProductDto>();
+            var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
+            foreach (var item in productdto)
+            {
+                item.Path = _productRepository.GetPath(Convert.ToInt32(item.Id));
+                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
+            }
+            int i = 0;
+            foreach (var item in productdto)
+            {
+                if (item.CategoryName.Contains(categoryName) && i < 5)
+                {
+                    pro.Add(item);
+                    i++;
+                }
+            }
+            return pro;
+        }
+
+        public IEnumerable<ProductDto> GetRandom()
+        {
+            List<ProductDto> pro = new List<ProductDto>();
+            var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
+            foreach (var item in productdto)
+            {
+                item.Path = _productRepository.GetPath(Convert.ToInt32(item.Id));
+                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
+            }
+            int i = 0;
+            foreach (var item in productdto)
+            {
+                if ( i < 5)
+                {
+                    pro.Add(item);
+                    i++;
+                }
+            }
+            return pro;
+        }
         public ProductDto GetById(int id)
         {
-            return _mapper.Map<ProductDto>(_productRepository.GetById(id));
+            var temp = _mapper.Map<ProductDto>(_productRepository.GetById(id));
+            temp.Path = _productRepository.GetPath(Convert.ToInt32(temp.Id));
+            temp.Brand = _productRepository.GetBrand(Convert.ToInt32(temp.BrandId));
+            temp.CategoryName = _productRepository.GetCategory(Convert.ToInt32(temp.CategoryId));
+            return temp;
         }
 
         public ProductDto Update(int id, ProductDto product)

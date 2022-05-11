@@ -6,7 +6,7 @@ using WebsiteApi.Model.Entity;
 using WebsiteApi.Repositories.IRepositories;
 namespace WebsiteApi.Repositories
 {
-    public class ProductRepository: IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ApiContext _context;
         public ProductRepository(ApiContext _context)
@@ -48,12 +48,72 @@ namespace WebsiteApi.Repositories
             return _context.Products.OrderByDescending(x => x.Id).ToList();
         }
 
+        public string GetBrand(long id)
+        {
+            try
+            {
+                var temp = _context.Brands.Where(p => p.Id == id).FirstOrDefault();
+                if (temp != null)
+                {
+                    return temp.Name;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
         public Product GetById(int id)
         {
             var product = _context.Products.Where(x => x.Id == id).FirstOrDefault();
             if (product == null)
                 throw new IsNotExist("There is no Brand with Id is " + id);
             return product;
+        }
+
+        public string GetCategory(long id)
+        {
+            try
+            {
+                var temp = _context.Categories.Where(p => p.Id == id).FirstOrDefault();
+                if (temp != null)
+                {
+                    return temp.Name;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        public string GetPath(long id)
+        {
+            try
+            {
+                var temp = _context.ProductImages.Where(p => p.ProductId == id).FirstOrDefault();
+                if (temp != null)
+                {
+                    return temp.Path;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
 
         public Product Update(int id, Product product)

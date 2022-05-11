@@ -10,5 +10,8 @@ namespace WebsiteApi.Services.IServices
         ProductDto Create(ProductDto category);
         ProductDto Update(int id, ProductDto category);
         string Delete(int id);
+        IEnumerable<ProductDto> GetAllByCategory(string categoryName);
+        IEnumerable<ProductDto> GetRandom();
+
     }
 }

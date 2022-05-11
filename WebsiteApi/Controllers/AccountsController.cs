@@ -28,7 +28,7 @@ namespace WebsiteApi.Controllers
         [HttpPost("login")]
         public ActionResult<string> Login(LoginDto loginDto)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserName == loginDto.UserName.ToLower());
+            var user = _context.Users.FirstOrDefault(u => u.Email == loginDto.Email);
             if (user == null) return Unauthorized("Invalid Username");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -44,7 +44,7 @@ namespace WebsiteApi.Controllers
             return Ok(new UserResponseDto
             {
                 Id = user.Id,
-                Username = user.UserName,
+                Username = user.Email,
                 Role = user.Role.Name,
                 Token = _tokenService.CreateToken(user)
             });

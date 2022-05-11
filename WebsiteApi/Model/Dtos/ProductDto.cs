@@ -48,5 +48,8 @@ namespace WebsiteApi.Model.Dtos
         public string Path { get; set; }
         public IFormFile ImageFile { get; set; }
 
+        public string Brand { get; set; }
+        public string  CategoryName { get; set; }
+
     }
 }

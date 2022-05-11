@@ -10,5 +10,9 @@ namespace WebsiteApi.Repositories.IRepositories
         Product Create(Product category);
         Product Update(int id, Product category);
         string Delete(int id);
+        string GetPath(long id);
+        string GetBrand(long id);
+        string GetCategory(long id);
+
     }
 }

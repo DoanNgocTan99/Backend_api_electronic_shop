@@ -45,6 +45,31 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        [HttpGet("roductRelated/{categoryname}")]
+        public ActionResult<ProductDto> GetByCategoryName(string categoryname)
+        {
+            try
+            {
+                return Ok(_productService.GetAllByCategory(categoryname));
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("roductRelated/")]
+        public ActionResult<ProductDto> GetByCategoryName()
+        {
+            try
+            {
+                return Ok(_productService.GetRandom());
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         //[Authorize("ADMIN")]
         [HttpPost("Create")]
         public ActionResult<ProductDto> Create([FromForm] ProductDto value)
