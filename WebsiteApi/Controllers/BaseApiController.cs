@@ -2,7 +2,7 @@
 
 namespace WebsiteApi.Controllers
 {
-    [Route("Electronic_shop/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BaseApiController : Controller
     {

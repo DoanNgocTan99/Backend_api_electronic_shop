@@ -30,6 +30,7 @@ namespace WebsiteApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 //.AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
@@ -86,7 +87,7 @@ namespace WebsiteApi
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
 
-            //Repositories
+            //RepositoriesSonfigureService 
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBrandService, BrandService>();
@@ -97,6 +98,16 @@ namespace WebsiteApi
 
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(RoleMappings));
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:3000", "https://localhost:3000")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,7 +125,8 @@ namespace WebsiteApi
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors("AllowOrigin");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
