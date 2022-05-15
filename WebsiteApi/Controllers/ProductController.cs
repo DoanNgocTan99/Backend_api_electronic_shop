@@ -57,6 +57,18 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("ProductRelated")]
+        public ActionResult<ProductDto> GetProductsByCategoryName(ProductListByCategory value)
+        {
+            try
+            {
+                return Ok(_productService.GetListProductByCategory(value));
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("roductRelated/")]
         public ActionResult<ProductDto> GetByCategoryName()

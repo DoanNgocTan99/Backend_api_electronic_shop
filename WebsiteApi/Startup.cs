@@ -9,6 +9,7 @@ using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using WebsiteApi.Mapper;
 using WebsiteApi.Model.Entity;
 using WebsiteApi.Repositories;
@@ -30,7 +31,7 @@ namespace WebsiteApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 //.AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
@@ -108,6 +109,10 @@ namespace WebsiteApi
                                             .AllowAnyMethod();
                     });
             });
+            //services.AddControllers().AddJsonOptions(x =>
+            //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            //         services.AddControllers().AddJsonOptions(x =>
+            //x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

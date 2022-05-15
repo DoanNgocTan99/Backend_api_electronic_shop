@@ -13,9 +13,33 @@ namespace WebsiteApi.Repositories
         {
             _context = context;
         }
+
+        public int CountProductInCart(int idUser)
+        {
+            int count = 0;
+            var listCart = _context.Carts.Where(x => x.UserId == idUser).ToList();
+            if(listCart == null)
+            {
+                return 0;
+            }
+            foreach (var item in listCart)
+            {
+                count += item.Count;
+            }
+            return count;
+        }
+
         public string Create(Cart cart)
         {
-            _context.Carts.Add(cart);
+            var ProductInCartByUser = _context.Carts.Where(x => x.UserId == cart.UserId && x.ProductId == cart.ProductId).FirstOrDefault();
+            if (ProductInCartByUser != null)
+            {
+                ProductInCartByUser.Count += cart.Count;
+            }
+            else
+            {
+                _context.Carts.Add(cart);
+            }
             _context.SaveChanges();
             return "Create successful";
         }
@@ -36,6 +60,10 @@ namespace WebsiteApi.Repositories
         public IEnumerable<Cart> GetCarts(int UserId)
         {
             var listCart = _context.Carts.Where(c => c.UserId == UserId).ToList();
+            foreach (var item in listCart)
+            {
+                item.Product = _context.Products.Where(x => x.Id == item.ProductId).FirstOrDefault();
+            }
             return listCart;
         }
 

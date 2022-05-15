@@ -28,7 +28,6 @@ namespace WebsiteApi.Controllers
                 return new JsonResult(new { message = ex.Message }) { StatusCode = StatusCodes.Status204NoContent };
             }
         }
-        [Authorize("ADMIN")]
         [HttpGet("{id}")]
         public ActionResult<UserDto> GetById(int id)
         {

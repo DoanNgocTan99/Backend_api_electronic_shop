@@ -44,7 +44,8 @@ namespace WebsiteApi.Controllers
             return Ok(new UserResponseDto
             {
                 Id = user.Id,
-                Username = user.Email,
+                avt = user.ImagePath,
+                Username = user.UserName,
                 Role = user.Role.Name,
                 Token = _tokenService.CreateToken(user)
             });
@@ -91,6 +92,7 @@ namespace WebsiteApi.Controllers
             return Ok(new UserResponseDto
             {
                 Id = user.Id,
+                avt = user.ImagePath,
                 Username = user.UserName,
                 Role = user.Role.Name,
                 Token = _tokenService.CreateToken(user)

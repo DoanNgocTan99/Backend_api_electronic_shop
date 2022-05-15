@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebsiteApi.Model.Dtos;
+using WebsiteApi.Model.Entity;
 using WebsiteApi.Services.IServices;
 
 namespace WebsiteApi.Controllers
@@ -15,7 +16,7 @@ namespace WebsiteApi.Controllers
             _cartService = cartService;
         }
 
-        [HttpPost("GetListCart")]
+        [HttpGet("GetListCartByIdUser/{id}")]
         public ActionResult<IEnumerable<CartDto>> GetALl(int id)
         {
             try
@@ -28,6 +29,31 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        [HttpGet("GetFullListCartByIdUser/{id}")]
+        public ActionResult<IEnumerable<Cart>> GetFullListCartByIdUser(int id)
+        {
+            try
+            {
+                return Ok(_cartService.GetFullCart(id));
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetCountProductByIdUser/{id}")]
+        public ActionResult<int> GetCountProductByIdUser(int id)
+        {
+            try
+            {
+                return Ok(_cartService.GetCountProductInCart(id));
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost("Create")]
         public ActionResult<string> Create(CartDto cart)
         {

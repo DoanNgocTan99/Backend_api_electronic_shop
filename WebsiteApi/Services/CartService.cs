@@ -11,10 +11,12 @@ namespace WebsiteApi.Services
     {
         private readonly IMapper _mapper;
         private readonly ICartRepository _cartRepository;
-        public CartService(IMapper mapper, ICartRepository cartRepository)
+        private readonly IProductRepository _productRepository;
+        public CartService(IMapper mapper, ICartRepository cartRepository, IProductRepository productRepository)
         {
             _cartRepository = cartRepository;
             _mapper = mapper;
+            _productRepository = productRepository;
         }
         public string Create(CartDto cart)
         {
@@ -33,7 +35,49 @@ namespace WebsiteApi.Services
 
         public IEnumerable<CartDto> GetCarts(int UserId)
         {
-            return _mapper.Map<IEnumerable<CartDto>>(_cartRepository.GetCarts(UserId));
+            List<CartDto> cartDto = new List<CartDto>();
+            var listFullCart =  _cartRepository.GetCarts(UserId);
+            foreach (var item in listFullCart)
+            {
+                cartDto.Add(new CartDto()
+                {
+                    Id = item.Id,
+                    Count = item.Count,
+                    UserId = item.UserId,
+                    CreatedBy = item.CreatedBy,
+                    ModifiedBy = item.ModifiedBy,
+                    ModifiedDate = item.ModifiedDate,
+                    CreatedDate = item.CreatedDate,
+                    Name = item.Product.Name,
+                    Description = item.Product.Description,
+                    Material = item.Product.Material,
+                    Origin = item.Product.Origin,
+                    Product_Price = item.Product.Product_Price,
+                    Del_Price = item.Product.Del_Price,
+                    WarrantyDate = item.Product.WarrantyDate,
+                    Stock = item.Product.Stock,
+                    Discount = item.Product.Discount,
+                    Views = item.Product.Views,
+                    Rate = item.Product.Rate,
+                    IsActive = item.Product.IsActive,
+                    BrandId = item.Product.BrandId,
+                    CategoryId = item.Product.CategoryId,
+                    Path = _productRepository.GetPath(item.ProductId),
+                    Brand = _productRepository.GetBrand(item.Product.BrandId.GetValueOrDefault()),
+                    CategoryName = _productRepository.GetCategory(item.Product.CategoryId),
+                    ProductId = item.ProductId
+                });
+            }
+            return cartDto;
+        }
+
+        public IEnumerable<Cart> GetFullCart(int UserId)
+        {
+            return _cartRepository.GetCarts(UserId);
+        }
+        public int GetCountProductInCart(int IdUser)
+        {
+            return _cartRepository.CountProductInCart(IdUser);
         }
 
         public string Update(int id, CartDto cart)
