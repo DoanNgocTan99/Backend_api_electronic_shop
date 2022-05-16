@@ -49,6 +49,7 @@ namespace WebsiteApi.Repositories
             if (this.GetById(id) == null)
                 throw new IsNotExist("");
             _context.Carts.Remove(this.GetById(id));
+            _context.SaveChanges();
             return "Delete successful";
         }
 

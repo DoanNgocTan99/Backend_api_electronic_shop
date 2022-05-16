@@ -60,7 +60,10 @@ namespace WebsiteApi.Controllers
         {
             try
             {
-                value.ImagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    value.ImagePath = this.SaveImage(value.ImageFile);
+                }
                 return Ok(_userService.Update(id, value));
             }
             catch (Exception ex)
