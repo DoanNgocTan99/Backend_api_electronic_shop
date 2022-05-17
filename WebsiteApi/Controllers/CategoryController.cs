@@ -45,11 +45,19 @@ namespace WebsiteApi.Controllers
         [Authorize("ADMIN")]
 
         [HttpPost("Create")]
-        public ActionResult<CategoryDto> Create([FromForm] CategoryDto value)
+        public ActionResult<CategoryDto> Create([FromBody] CategoryDto value)
         {
             try
             {
-                value.ImagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    var imagePath = this.SaveImage(value.ImageFile);
+                    value.ImagePath = _categoryService.UploadImage(imagePath);
+                }
+                else
+                {
+                    value.ImagePath = _categoryService.UploadImage(value.ImagePath);
+                }
                 return Ok(_categoryService.Create(value));
             }
             catch (System.Exception ex)
@@ -79,11 +87,19 @@ namespace WebsiteApi.Controllers
 
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
-        public ActionResult<CategoryDto> Update(int id, [FromForm] CategoryDto value)
+        public ActionResult<CategoryDto> Update(int id, [FromBody] CategoryDto value)
         {
             try
             {
-                value.ImagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    var imagePath = this.SaveImage(value.ImageFile);
+                    value.ImagePath = _categoryService.UploadImage(imagePath);
+                }
+                else
+                {
+                    value.ImagePath = _categoryService.UploadImage(value.ImagePath);
+                }
                 return Ok(_categoryService.Update(id, value));
             }
             catch (System.Exception ex)

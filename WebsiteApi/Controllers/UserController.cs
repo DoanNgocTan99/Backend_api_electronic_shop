@@ -62,7 +62,12 @@ namespace WebsiteApi.Controllers
             {
                 if (value.ImageFile != null)
                 {
-                    value.ImagePath = this.SaveImage(value.ImageFile);
+                    var temp = this.SaveImage(value.ImageFile);
+                    value.ImagePath = _userService.UploadImage(temp);
+                }
+                else
+                {
+                    value.ImagePath = _userService.UploadImage(value.ImagePath);
                 }
                 return Ok(_userService.Update(id, value));
             }

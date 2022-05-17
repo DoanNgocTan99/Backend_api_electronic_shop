@@ -6,6 +6,8 @@ using WebsiteApi.Repositories.IRepositories;
 using WebsiteApi.Services.IServices;
 using AutoMapper;
 using System;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace WebsiteApi.Services
 {
@@ -23,6 +25,26 @@ namespace WebsiteApi.Services
             return _mapper.Map<CategoryDto>(_categoryRepository.Create(_mapper.Map<Category>(category)));
         }
 
+        public string UploadImage(string path)
+        {
+            if(!string.IsNullOrEmpty(path) && !string.IsNullOrWhiteSpace(path))
+            {
+                string CLOUD_NAME = "tandn";
+                string API_KEY = "661621979949236";
+                string API_SECRET = "-QNMYjxVSCWpWhi0dLWj7G_hv_g";
+                Account account = new Account(CLOUD_NAME, API_KEY, API_SECRET);
+                Cloudinary cloudinary = new Cloudinary(account);
+                cloudinary.Api.Secure = true;
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(path)
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+
+                return uploadResult.SecureUri.ToString();
+            }
+            return string.Empty;
+        }
         public string Delete(int id)
         {
             return _categoryRepository.Delete(id);

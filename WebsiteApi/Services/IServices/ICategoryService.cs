@@ -10,5 +10,6 @@ namespace WebsiteApi.Services.IServices
         CategoryDto Create(CategoryDto category);
         CategoryDto Update(int id, CategoryDto category);
         string Delete(int id);
+        string UploadImage(string path);
     }
 }

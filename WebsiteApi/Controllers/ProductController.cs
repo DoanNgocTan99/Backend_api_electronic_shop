@@ -70,30 +70,39 @@ namespace WebsiteApi.Controllers
             }
         }
 
-        [HttpGet("roductRelated/")]
-        public ActionResult<ProductDto> GetByCategoryName()
-        {
-            try
-            {
-                return Ok(_productService.GetRandom());
-            }
-            catch (System.Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("ProductRelated/")]
+        //public ActionResult<ProductDto> GetByCategoryName()
+        //{
+        //    try
+        //    {
+        //        return Ok(_productService.GetRandom());
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         //[Authorize("ADMIN")]
         [HttpPost("Create")]
-        public ActionResult<ProductDto> Create([FromForm] ProductDto value)
+        public ActionResult<ProductDto> Create([FromBody] ProductDto value)
         {
             try
             {
+                var imagePathLater = string.Empty;
                 var temp = _productService.Create(value);
-                var imagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    var imagePath = this.SaveImage(value.ImageFile);
+                    imagePathLater = _productImageService.UploadImage(imagePath);
+                }
+                else
+                {
+                    imagePathLater = _productImageService.UploadImage(value.Path);
+                }
                 ProductImageDto pro = new ProductImageDto()
                 {
                     ProductId = temp.Id,
-                    Path = imagePath
+                    Path = imagePathLater
                 };
                 temp.Path = _productImageService.CreatePath(pro);
                 return Ok(temp);
@@ -110,12 +119,22 @@ namespace WebsiteApi.Controllers
         {
             try
             {
+                var imagePathLater = string.Empty;
                 var temp = _productService.Update(id, value);
-                var imagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    var imagePath = this.SaveImage(value.ImageFile);
+                    imagePathLater = _productImageService.UploadImage(imagePath);
+                }
+                else
+                {
+                    imagePathLater = _productImageService.UploadImage(value.Path);
+                }
+
                 ProductImageDto pro = new ProductImageDto()
                 {
                     ProductId = temp.Id,
-                    Path = imagePath
+                    Path = imagePathLater
                 };
                 temp.Path = _productImageService.CreatePath(pro);
                 return Ok(temp);
