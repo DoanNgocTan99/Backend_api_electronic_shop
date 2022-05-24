@@ -82,7 +82,7 @@ namespace WebsiteApi.Controllers
         //        return BadRequest(ex.Message);
         //    }
         //}
-        //[Authorize("ADMIN")]
+        [Authorize("ADMIN")]
         [HttpPost("Create")]
         public ActionResult<ProductDto> Create([FromBody] ProductDto value)
         {
@@ -97,14 +97,14 @@ namespace WebsiteApi.Controllers
                 }
                 else
                 {
-                    imagePathLater = _productImageService.UploadImage(value.Path);
+                    imagePathLater = _productImageService.UploadImage(value.Avt);
                 }
                 ProductImageDto pro = new ProductImageDto()
                 {
                     ProductId = temp.Id,
                     Path = imagePathLater
                 };
-                temp.Path = _productImageService.CreatePath(pro);
+                //temp.Path = _productImageService.CreatePath(pro);
                 return Ok(temp);
 
             }
@@ -128,7 +128,10 @@ namespace WebsiteApi.Controllers
                 }
                 else
                 {
-                    imagePathLater = _productImageService.UploadImage(value.Path);
+                    if (string.IsNullOrEmpty(value.Avt) || string.IsNullOrWhiteSpace(value.Avt))
+                    {
+                        imagePathLater = _productImageService.UploadImage(value.Avt);
+                    }
                 }
 
                 ProductImageDto pro = new ProductImageDto()
@@ -136,7 +139,7 @@ namespace WebsiteApi.Controllers
                     ProductId = temp.Id,
                     Path = imagePathLater
                 };
-                temp.Path = _productImageService.CreatePath(pro);
+                //temp.Path = _productImageService.CreatePath(pro);
                 return Ok(temp);
             }
             catch (System.Exception ex)

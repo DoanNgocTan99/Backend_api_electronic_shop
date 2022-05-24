@@ -55,6 +55,7 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<int> Update(int id, [FromForm] UserDto value)
         {
@@ -67,7 +68,10 @@ namespace WebsiteApi.Controllers
                 }
                 else
                 {
-                    value.ImagePath = _userService.UploadImage(value.ImagePath);
+                    if (!string.IsNullOrEmpty(value.ImagePath) || !string.IsNullOrWhiteSpace(value.ImagePath))
+                    {
+                        value.ImagePath = _userService.UploadImage(value.ImagePath);
+                    }
                 }
                 return Ok(_userService.Update(id, value));
             }

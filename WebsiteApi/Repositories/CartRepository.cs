@@ -18,7 +18,7 @@ namespace WebsiteApi.Repositories
         {
             int count = 0;
             var listCart = _context.Carts.Where(x => x.UserId == idUser).ToList();
-            if(listCart == null)
+            if (listCart == null)
             {
                 return 0;
             }
@@ -46,9 +46,13 @@ namespace WebsiteApi.Repositories
 
         public string Delete(int id)
         {
-            if (this.GetById(id) == null)
+            var carts = _context.Carts.Where(x => x.UserId == id).ToList();
+            if (carts.Count == 0)
                 throw new IsNotExist("");
-            _context.Carts.Remove(this.GetById(id));
+            foreach (var item in carts)
+            {
+                _context.Carts.Remove(item);
+            }
             _context.SaveChanges();
             return "Delete successful";
         }

@@ -108,7 +108,6 @@ namespace WebsiteApi.Controllers
             }
         }
         [Authorize("ADMIN")]
-
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
         {

@@ -140,7 +140,7 @@ namespace WebsiteApi.Repositories
             _product.Views = product.Views;
             _product.Rate = product.Rate;
             _product.IsActive = product.IsActive;
-
+            _product.Avt = product.Avt;
             _product.BrandId = product.BrandId;
             _product.CategoryId = product.CategoryId;
 

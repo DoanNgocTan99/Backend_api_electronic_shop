@@ -23,7 +23,7 @@ namespace WebsiteApi.Services
 
         public string ChangePassword(int id, string password)
         {
-            return _userRepository.ChangePassword(id,password);
+            return _userRepository.ChangePassword(id, password);
         }
 
         public bool check(string Email = "", string UserName = "", string Phone = "")
@@ -90,6 +90,10 @@ namespace WebsiteApi.Services
             if (!u.Phone.Equals(user.Phone) && !this.check(Phone: user.Phone))
             {
                 throw new IsExist("Phone is existed!");
+            }
+            if (string.IsNullOrEmpty(user.ImagePath) || string.IsNullOrWhiteSpace(user.ImagePath))
+            {
+                user.ImagePath = u.ImagePath;
             }
             return _mapper.Map<UserDto>(_userRepository.Update(id, _mapper.Map<User>(user)));
 

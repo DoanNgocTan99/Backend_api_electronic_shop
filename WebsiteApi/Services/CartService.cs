@@ -62,7 +62,7 @@ namespace WebsiteApi.Services
                     IsActive = item.Product.IsActive,
                     BrandId = item.Product.BrandId,
                     CategoryId = item.Product.CategoryId,
-                    Path = _productRepository.GetPath(item.ProductId),
+                    Avt = item.Product.Avt,
                     Brand = _productRepository.GetBrand(item.Product.BrandId.GetValueOrDefault()),
                     CategoryName = _productRepository.GetCategory(item.Product.CategoryId),
                     ProductId = item.ProductId

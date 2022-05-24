@@ -2,87 +2,87 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using WebsiteApi.Helpers;
 using WebsiteApi.Model.Dtos;
 using WebsiteApi.Services.IServices;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebsiteApi.Controllers
 {
-    public class BrandController : BaseApiController
+
+    public class PaymentController : BaseApiController
     {
-        private readonly IBrandService _brandService;
-        public BrandController(IBrandService brandService)
+        private readonly IPaymentService _paymentService;
+        public PaymentController(IPaymentService paymentService)
         {
-            _brandService = brandService;
+            _paymentService = paymentService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<BrandDto>> Get()
+        public ActionResult<IEnumerable<PaymentDto>> Get()
         {
             try
             {
-                return Ok(_brandService.GetAll());
+                return Ok(_paymentService.GetAll());
             }
             catch (System.Exception ex)
             {
-                return new JsonResult(new { message = ex.Message }) { StatusCode = StatusCodes.Status204NoContent };
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")]
-        public ActionResult<BrandDto> GetById(int id)
+        public ActionResult<PaymentDto> GetById(int id)
         {
             try
             {
-                return Ok(_brandService.GetById(id));
+                return Ok(_paymentService.GetById(id));
             }
             catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
         [Authorize("ADMIN")]
+
         [HttpPost("Create")]
-        public ActionResult<BrandDto> Post([FromBody] BrandDto value)
+        public ActionResult<PaymentDto> Create([FromBody] PaymentDto value)
         {
             try
             {
-                return Ok(_brandService.Create(value));
+                return Ok(_paymentService.Create(value));
             }
             catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+        
 
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
-        public ActionResult<BrandDto> Put(int id, [FromBody] BrandDto value)
+        public ActionResult<PaymentDto> Update(int id, [FromBody] PaymentDto value)
         {
             try
             {
-                return Ok(_brandService.Update(id, value));
+                return Ok(_paymentService.Update(id, value));
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
         [Authorize("ADMIN")]
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
         {
             try
             {
-                return Ok(_brandService.Delete(id));
+                return Ok(_paymentService.Delete(id));
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

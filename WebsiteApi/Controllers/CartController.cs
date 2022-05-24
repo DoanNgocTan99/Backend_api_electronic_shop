@@ -7,7 +7,7 @@ using WebsiteApi.Services.IServices;
 
 namespace WebsiteApi.Controllers
 {
-    
+
     public class CartController : BaseApiController
     {
         private readonly ICartService _cartService;
@@ -29,6 +29,28 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        [HttpGet("CountProductInCart/{id}")]
+        public ActionResult<int> CountProductInCart(int id)
+        {
+            try
+            {
+                var count = 0;
+                var listCart = _cartService.GetCarts(id);
+                if (listCart == null)
+                {
+                    return Ok(count);
+                }
+                foreach (var item in listCart)
+                {
+                    count++;
+                }
+                return Ok(count);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("GetFullListCartByIdUser/{id}")]
         public ActionResult<IEnumerable<Cart>> GetFullListCartByIdUser(int id)
         {
@@ -68,7 +90,7 @@ namespace WebsiteApi.Controllers
         }
 
         [HttpPut("Update")]
-        public ActionResult<string> Update(int id,[FromBody] CartDto cart)
+        public ActionResult<string> Update(int id, [FromBody] CartDto cart)
         {
             try
             {

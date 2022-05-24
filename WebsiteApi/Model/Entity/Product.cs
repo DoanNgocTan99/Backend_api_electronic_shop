@@ -26,8 +26,7 @@ namespace WebsiteApi.Model.Entity
         [StringLength(250)]
         public string Name { get; set; }
 
-        [Required]
-        [StringLength(250)]
+        [Column(TypeName = "Text")]
         public string Description { get; set; }
 
         [StringLength(250)]
@@ -71,6 +70,7 @@ namespace WebsiteApi.Model.Entity
         public virtual Brand Brand { get; set; }
 
         public virtual Category Category { get; set; }
+        public string Avt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
