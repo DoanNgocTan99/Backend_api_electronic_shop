@@ -102,6 +102,7 @@ namespace WebsiteApi
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IStatisticalService, StatisticalService>();
+            services.AddTransient<IRatingService, RatingService>();
 
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(RoleMappings));

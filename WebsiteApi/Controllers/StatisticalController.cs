@@ -17,13 +17,36 @@ namespace WebsiteApi.Controllers
             _statisticalService = statisticalService;
         }
 
-        [Authorize("ADMIN")]
         [HttpGet]
         public ActionResult<IEnumerable<StatisticalDto>> Get()
         {
             try
             {
                 return Ok(_statisticalService.GetAll());
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetTopCustomers")]
+        public ActionResult<IEnumerable<TopCustomerDto>> GetTopCustomers()
+        {
+            try
+            {
+                return Ok(_statisticalService.GetTopCustomers());
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetLatestOrders")]
+        public ActionResult<IEnumerable<LatestOrder>> GetLatestOrders()
+        {
+            try
+            {
+                return Ok(_statisticalService.GetLatestOrders());
             }
             catch (System.Exception ex)
             {

@@ -6,5 +6,8 @@ namespace WebsiteApi.Repositories.IRepositories
     public interface IStatisticalRepository
     {
         IEnumerable<StatisticalDto> GetAll();
+        IEnumerable<TopCustomerDto> GetTopCustomers();
+        IEnumerable<LatestOrder> GetLatestOrders();
+
     }
 }

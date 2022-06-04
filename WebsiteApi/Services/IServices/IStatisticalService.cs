@@ -6,5 +6,8 @@ namespace WebsiteApi.Services.IServices
     public interface IStatisticalService
     {
         IEnumerable<StatisticalDto> GetAll();
+        IEnumerable<TopCustomerDto> GetTopCustomers();
+        IEnumerable<LatestOrder> GetLatestOrders();
+
     }
 }
