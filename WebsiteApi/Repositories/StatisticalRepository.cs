@@ -66,6 +66,41 @@ namespace WebsiteApi.Repositories
 
         public IEnumerable<LatestOrder> GetLatestOrders()
         {
+            int i = 1;
+            List<LatestOrder> result = new List<LatestOrder>();
+            var ListUserOrder = _context.Orders.ToList();
+            foreach (var item in ListUserOrder)
+            {
+                if (i < 6)
+                {
+                    var user = new LatestOrder();
+                    var listUser = _context.Users.Where(x => x.Id == item.UserId).ToArray();
+                    if (listUser != null)
+                    {
+                        user.UserName = listUser[0].UserName;
+                    }
+                    else
+                        user.UserName = string.Empty;
+
+                    user.OrderId = Convert.ToInt32(item.Id);
+                    var order = _context.Orders.Where(x => x.Id == item.Id).FirstOrDefault();
+                    user.TotalPrice = Convert.ToDecimal(order.Total);
+                    user.Date = Convert.ToDateTime(order.CreatedDate);
+                    user.Status = _context.TrackingOrders.Where(x => x.OrderId == item.Id).Select(x => x.Status).FirstOrDefault();
+                    if (user.Status == null)
+                    {
+                        user.Status = "Unknown";
+                    }
+                    result.Add(user);
+                }
+                i++;
+            }
+            return result;
+
+        }
+
+        public IEnumerable<LatestOrder> GetFullLatestOrders()
+        {
             List<LatestOrder> result = new List<LatestOrder>();
             var ListUserOrder = _context.Orders.ToList();
             foreach (var item in ListUserOrder)

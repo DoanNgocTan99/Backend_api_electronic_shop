@@ -25,7 +25,10 @@ namespace WebsiteApi.Services
         {
             return _statisticalRepository.GetLatestOrders();
         }
-
+        public IEnumerable<LatestOrder> GetFullLatestOrders()
+        {
+            return _statisticalRepository.GetFullLatestOrders();
+        }
         public IEnumerable<TopCustomerDto> GetTopCustomers()
         {
             return _statisticalRepository.GetTopCustomers();

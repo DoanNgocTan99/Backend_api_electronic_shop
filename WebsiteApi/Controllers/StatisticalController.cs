@@ -60,6 +60,18 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetFullLatestOrders")]
+        public ActionResult<IEnumerable<LatestOrder>> GetFullLatestOrders()
+        {
+            try
+            {
+                return Ok(_statisticalService.GetFullLatestOrders());
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("GetFileExcel")]
         public ActionResult<string> GetFileExcel()
         {

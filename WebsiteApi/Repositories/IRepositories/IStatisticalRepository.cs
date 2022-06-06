@@ -8,6 +8,7 @@ namespace WebsiteApi.Repositories.IRepositories
         IEnumerable<StatisticalDto> GetAll();
         IEnumerable<TopCustomerDto> GetTopCustomers();
         IEnumerable<LatestOrder> GetLatestOrders();
+        IEnumerable<LatestOrder> GetFullLatestOrders();
 
     }
 }

@@ -8,6 +8,7 @@ namespace WebsiteApi.Services.IServices
         IEnumerable<StatisticalDto> GetAll();
         IEnumerable<TopCustomerDto> GetTopCustomers();
         IEnumerable<LatestOrder> GetLatestOrders();
+        IEnumerable<LatestOrder> GetFullLatestOrders();
 
     }
 }
