@@ -118,13 +118,19 @@ namespace WebsiteApi.Controllers
         {
             try
             {
+                // This returns something like C:\Users\Username:
+                string userRoot = System.Environment.GetEnvironmentVariable("USERPROFILE");
+                // Now let's get C:\Users\Username\Downloads:
+                string downloadFolder = Path.Combine(userRoot, "Downloads");
+                string pathCurrent = Path.Combine(downloadFolder, "DataStatistical.xlsx");
+
                 IEnumerable<LatestOrder> LatestOrders = _statisticalService.GetLatestOrders();
                 IEnumerable<TopCustomerDto> TopCustomers = _statisticalService.GetTopCustomers();
 
                 DataTable table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(LatestOrders), (typeof(DataTable)));
                 DataTable tablewTopCustomers = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(TopCustomers), (typeof(DataTable)));
 
-                using (SpreadsheetDocument document = SpreadsheetDocument.Create("DataStatistical.xlsx", SpreadsheetDocumentType.Workbook))
+                using (SpreadsheetDocument document = SpreadsheetDocument.Create(pathCurrent, SpreadsheetDocumentType.Workbook))
                 {
                     WorkbookPart workbookPart = document.AddWorkbookPart();
                     workbookPart.Workbook = new Workbook();
@@ -352,7 +358,7 @@ namespace WebsiteApi.Controllers
 
                     workbookPart.Workbook.Save();
                 }
-                return Ok(string.Empty);
+                return Ok("Download excel thành công!!!");
             }
             catch (System.Exception ex)
             {
