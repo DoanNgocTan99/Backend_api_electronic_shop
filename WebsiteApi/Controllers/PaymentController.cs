@@ -16,6 +16,11 @@ namespace WebsiteApi.Controllers
         {
             _paymentService = paymentService;
         }
+
+        /// <summary>
+        /// Lấy tất cả phương thức thanh toán trong csdl
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<PaymentDto>> Get()
         {
@@ -29,6 +34,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy phương thức thanh toán theo Id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<PaymentDto> GetById(int id)
         {
@@ -41,8 +51,13 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize("ADMIN")]
 
+        /// <summary>
+        /// Thêm mới phương thức thanh toán (Được thực hiện dưới quyền ADMIN)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [Authorize("ADMIN")]
         [HttpPost("Create")]
         public ActionResult<PaymentDto> Create([FromBody] PaymentDto value)
         {
@@ -56,7 +71,12 @@ namespace WebsiteApi.Controllers
             }
         }
         
-
+        /// <summary>
+        /// Chỉnh sửa phương thức thanh toán (ĐƯợc thực hiện dưới quyền ADMIN)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<PaymentDto> Update(int id, [FromBody] PaymentDto value)
@@ -70,6 +90,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Xóa phương thức thanh toán (Được thực hiện dưới quyền ADMIN)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)

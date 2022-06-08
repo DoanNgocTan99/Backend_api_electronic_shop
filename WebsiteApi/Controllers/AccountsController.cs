@@ -19,6 +19,7 @@ namespace WebsiteApi.Controllers
             _context = context;
             _tokenService = tokenService;
         }
+
         #region POST
         /// <summary>
         /// Perform information check when the user logs into the system
@@ -50,6 +51,7 @@ namespace WebsiteApi.Controllers
                 Token = _tokenService.CreateToken(user)
             });
         }
+
         /// <summary>
         /// Provide accounts for users
         /// </summary>

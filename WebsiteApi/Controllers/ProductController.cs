@@ -19,6 +19,11 @@ namespace WebsiteApi.Controllers
             _productService = productService;
             _productImageService = productImageService;
         }
+
+        /// <summary>
+        /// Lấy toàn bộ sản phẩm có trong csdl
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<ProductDto>> Get()
         {
@@ -32,6 +37,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy toàn bộ sản phẩm có trong csdl theo Id sản phẩm
+        /// </summary>
+        /// <param name="id"> Id sản phẩm </param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<ProductDto> GetById(int id)
         {
@@ -45,6 +55,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy sản phẩm theo tên danh mục
+        /// </summary>
+        /// <param name="categoryname">Tên danh mục sản phẩm</param>
+        /// <returns></returns>
         [HttpGet("roductRelated/{categoryname}")]
         public ActionResult<ProductDto> GetByCategoryName(string categoryname)
         {
@@ -57,6 +72,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Lấy sản phẩm theo tên danh sách danh mục
+        /// </summary>
+        /// <param name="value">List danh mục sản phẩm</param>
+        /// <returns></returns>
         [HttpPost("ProductRelated")]
         public ActionResult<ProductDto> GetProductsByCategoryName(ProductListByCategory value)
         {
@@ -70,18 +91,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
-        //[HttpGet("ProductRelated/")]
-        //public ActionResult<ProductDto> GetByCategoryName()
-        //{
-        //    try
-        //    {
-        //        return Ok(_productService.GetRandom());
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+        /// <summary>
+        /// Tạo mới sản phẩm
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpPost("Create")]
         public ActionResult<ProductDto> Create([FromBody] ProductDto value)
@@ -113,6 +127,13 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Chỉnh sửa sản phẩm. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<ProductDto> Update(int id, [FromBody] ProductDto value)
@@ -147,6 +168,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Xóa sản phẩm khỏi csdl
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
@@ -161,6 +188,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy đường dẫn ảnh để lưu vào csdl
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <returns></returns>
         [NonAction]
         private string SaveImage(IFormFile imageFile)
         {

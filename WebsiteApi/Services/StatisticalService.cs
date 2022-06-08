@@ -33,5 +33,10 @@ namespace WebsiteApi.Services
         {
             return _statisticalRepository.GetTopCustomers();
         }
+
+        public IEnumerable<TopCustomerDto> GetFullTopCustomers()
+        {
+            return _statisticalRepository.GetFullTopCustomers();
+        }
     }
 }

@@ -12,6 +12,11 @@ namespace WebsiteApi.Controllers
         {
             _ratingService = ratingService;
         }
+
+        /// <summary>
+        /// Thực hiện sử dụng Recommend
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {

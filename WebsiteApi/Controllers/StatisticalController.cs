@@ -24,6 +24,10 @@ namespace WebsiteApi.Controllers
             _statisticalService = statisticalService;
         }
 
+        /// <summary>
+        /// Thống kế số lượng các đơn hàng, Tổng giá, .... 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<StatisticalDto>> Get()
         {
@@ -36,6 +40,11 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Thống kê 5 người mua hàng nhiều nhất
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetTopCustomers")]
         public ActionResult<IEnumerable<TopCustomerDto>> GetTopCustomers()
         {
@@ -48,6 +57,28 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Thống kê toàn bộ danh sách người mua hàng
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetFullTopCustomers")]
+        public ActionResult<IEnumerable<TopCustomerDto>> GetFullTopCustomers()
+        {
+            try
+            {
+                return Ok(_statisticalService.GetFullTopCustomers());
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Thống kê 5 hóa đơn mới mua gần nhất 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetLatestOrders")]
         public ActionResult<IEnumerable<LatestOrder>> GetLatestOrders()
         {
@@ -60,6 +91,11 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Thống kê toàn bộ hóa đơn đã được đặt mua
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetFullLatestOrders")]
         public ActionResult<IEnumerable<LatestOrder>> GetFullLatestOrders()
         {
@@ -72,6 +108,11 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Xuất excel 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetFileExcel")]
         public ActionResult<string> GetFileExcel()
         {

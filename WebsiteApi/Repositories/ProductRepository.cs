@@ -73,6 +73,8 @@ namespace WebsiteApi.Repositories
             var product = _context.Products.Where(x => x.Id == id).FirstOrDefault();
             if (product == null)
                 throw new IsNotExist("There is no Brand with Id is " + id);
+            product.Views = Convert.ToInt32(product.Views) + 1;
+            _context.SaveChanges();
             return product;
         }
 

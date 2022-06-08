@@ -2,6 +2,9 @@
 
 namespace WebsiteApi.CusException
 {
+    /// <summary>
+    /// Customer Exception chỉ mục XXX đã tồn tại trong hệ thống
+    /// </summary>
     public class IsExist : Exception
     {
         public string StrName { get; }

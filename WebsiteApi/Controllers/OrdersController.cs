@@ -18,6 +18,12 @@ namespace WebsiteApi.Controllers
         {
             _orderService = orderService;
         }
+
+        /// <summary>
+        /// Lưu trữ hóa đơn sau khi thực hiện mua hàng
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<string> Create([FromBody] OrderDto value)
         {

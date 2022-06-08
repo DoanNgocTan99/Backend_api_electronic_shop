@@ -68,7 +68,7 @@ namespace WebsiteApi.Repositories
         {
             int i = 1;
             List<LatestOrder> result = new List<LatestOrder>();
-            var ListUserOrder = _context.Orders.ToList();
+            var ListUserOrder = _context.Orders.ToList().OrderByDescending(x => x.CreatedDate);
             foreach (var item in ListUserOrder)
             {
                 if (i < 6)
@@ -102,7 +102,7 @@ namespace WebsiteApi.Repositories
         public IEnumerable<LatestOrder> GetFullLatestOrders()
         {
             List<LatestOrder> result = new List<LatestOrder>();
-            var ListUserOrder = _context.Orders.ToList();
+            var ListUserOrder = _context.Orders.ToList().OrderByDescending(x => x.CreatedDate);
             foreach (var item in ListUserOrder)
             {
                 var user = new LatestOrder();
@@ -131,6 +131,38 @@ namespace WebsiteApi.Repositories
 
         public IEnumerable<TopCustomerDto> GetTopCustomers()
         {
+            int i = 0;
+            List<TopCustomerDto> result = new List<TopCustomerDto>();
+            var ListUserOrder = _context.Orders.Select(x => x.UserId).Distinct();
+            foreach (var item in ListUserOrder)
+            {
+                if (i < 6)
+                {
+                    var user = new TopCustomerDto();
+                    var listUser = _context.Users.Where(x => x.Id == item).ToArray();
+                    if (listUser != null)
+                    {
+                        user.UserName = listUser[0].UserName;
+                    }
+                    else
+                        continue;
+                    var totalSpendings = _context.Orders.Where(x => x.UserId == item).ToList();
+                    foreach (var value in totalSpendings)
+                    {
+                        user.TotalSpending += Convert.ToDecimal(value.Total);
+                    }
+                    user.TotalOrders = totalSpendings.Count;
+
+                    result.Add(user);
+                }
+                i++;
+            }
+            return result;
+
+        }
+
+        public IEnumerable<TopCustomerDto> GetFullTopCustomers()
+        {
             List<TopCustomerDto> result = new List<TopCustomerDto>();
             var ListUserOrder = _context.Orders.Select(x => x.UserId).Distinct();
             foreach (var item in ListUserOrder)
@@ -153,7 +185,6 @@ namespace WebsiteApi.Repositories
                 result.Add(user);
             }
             return result;
-
         }
     }
 }

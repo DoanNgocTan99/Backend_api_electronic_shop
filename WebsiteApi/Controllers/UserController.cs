@@ -15,6 +15,11 @@ namespace WebsiteApi.Controllers
         {
             _userService = userService;
         }
+
+        /// <summary>
+        /// Get toàn bộ USER trong hệ thống
+        /// </summary>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpGet]
         public ActionResult GetAll()
@@ -28,6 +33,12 @@ namespace WebsiteApi.Controllers
                 return new JsonResult(new { message = ex.Message }) { StatusCode = StatusCodes.Status204NoContent };
             }
         }
+
+        /// <summary>
+        /// Get user theo Id
+        /// </summary>
+        /// <param name="id">ID user</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<UserDto> GetById(int id)
         {
@@ -41,6 +52,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Xóa User khỏi csdl
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpDelete("Delete/{id}")]
         public ActionResult<string> Delete(int id)
@@ -55,6 +72,12 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Chỉnh sửa user theo ID 
+        /// </summary>
+        /// <param name="id">Id user</param>
+        /// <param name="value">giá trị mới</param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<int> Update(int id, [FromForm] UserDto value)
@@ -80,6 +103,13 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Thay đổi pass của User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost("ChangePassword/{id}")]
         public ActionResult<string> ChangePassword(int id, [FromBody] string password)
         {
@@ -92,6 +122,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <returns></returns>
         [NonAction]
         private string SaveImage(IFormFile imageFile)
         {

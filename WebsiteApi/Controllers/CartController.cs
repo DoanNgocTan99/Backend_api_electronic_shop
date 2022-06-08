@@ -16,6 +16,11 @@ namespace WebsiteApi.Controllers
             _cartService = cartService;
         }
 
+        /// <summary>
+        /// Lấy Cart theo Id của User đăng nhập
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetListCartByIdUser/{id}")]
         public ActionResult<IEnumerable<CartDto>> GetALl(int id)
         {
@@ -29,6 +34,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Đếm số lượng Sản phẩm trong Cart 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("CountProductInCart/{id}")]
         public ActionResult<int> CountProductInCart(int id)
         {
@@ -51,6 +61,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Lấy toàn bộ giỏ hàng theo User có trong csdl
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetFullListCartByIdUser/{id}")]
         public ActionResult<IEnumerable<Cart>> GetFullListCartByIdUser(int id)
         {
@@ -64,6 +80,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Đếm số lượng sản phẩm trong giỏ hàng theo Id user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetCountProductByIdUser/{id}")]
         public ActionResult<int> GetCountProductByIdUser(int id)
         {
@@ -76,6 +97,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Thêm mới sản phẩm vào giỏ hàng
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         [HttpPost("Create")]
         public ActionResult<string> Create(CartDto cart)
         {
@@ -89,6 +116,12 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update sản phẩm trong giỏ hàng
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         [HttpPut("Update")]
         public ActionResult<string> Update(int id, [FromBody] CartDto cart)
         {
@@ -102,6 +135,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Xóa sản phẩm khỏi giỏ hàng
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("Delete")]
         public ActionResult<string> Delete(int id)
         {
