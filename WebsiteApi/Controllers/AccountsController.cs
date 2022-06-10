@@ -85,6 +85,7 @@ namespace WebsiteApi.Controllers
                 Address = registerDto.Address,
                 FullName = registerDto.FullName,
                 CreatedDate = DateTime.Now,
+                ImagePath = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdsRv7DIKFauJT3Djb82qGRCv2lpbieAdI9o84elfQ17_k69N_4p2Xd9XCgQzD0Jo351Y&usqp=CAU",
                 Del = false
             };
             user.RoleId = _context.Roles.Where(x => string.Equals(x.Name, "USER")).FirstOrDefault().Id;
