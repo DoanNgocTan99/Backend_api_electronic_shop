@@ -73,6 +73,8 @@ namespace WebsiteApi.Repositories
             var product = _context.Products.Where(x => x.Id == id).FirstOrDefault();
             if (product == null)
                 throw new IsNotExist("There is no Brand with Id is " + id);
+            product.Views = Convert.ToInt32(product.Views) + 1;
+            _context.SaveChanges();
             return product;
         }
 
@@ -140,7 +142,7 @@ namespace WebsiteApi.Repositories
             _product.Views = product.Views;
             _product.Rate = product.Rate;
             _product.IsActive = product.IsActive;
-
+            _product.Avt = product.Avt;
             _product.BrandId = product.BrandId;
             _product.CategoryId = product.CategoryId;
 

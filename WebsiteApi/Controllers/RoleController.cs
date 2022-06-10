@@ -20,7 +20,10 @@ namespace WebsiteApi.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<RoleController>
+        /// <summary>
+        /// Lấy toàn bộ ROLE có trong hệ thống
+        /// </summary>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpGet]
         public IActionResult Get()
@@ -34,6 +37,13 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Update ROLE có trong hệ thống
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public IActionResult Update(int id, [FromBody] RoleDto role)

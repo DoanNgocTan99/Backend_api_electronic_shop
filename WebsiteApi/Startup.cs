@@ -9,6 +9,7 @@ using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using WebsiteApi.Mapper;
 using WebsiteApi.Model.Entity;
 using WebsiteApi.Repositories;
@@ -30,7 +31,7 @@ namespace WebsiteApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 //.AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
@@ -86,6 +87,9 @@ namespace WebsiteApi
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<IStatisticalRepository, StatisticalRepository>();
 
             //RepositoriesSonfigureService 
             services.AddTransient<ITokenService, TokenService>();
@@ -95,6 +99,10 @@ namespace WebsiteApi
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IProductImageService, ProductImageService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IStatisticalService, StatisticalService>();
+            services.AddTransient<IRatingService, RatingService>();
 
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(RoleMappings));
@@ -108,6 +116,10 @@ namespace WebsiteApi
                                             .AllowAnyMethod();
                     });
             });
+            //services.AddControllers().AddJsonOptions(x =>
+            //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            //         services.AddControllers().AddJsonOptions(x =>
+            //x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

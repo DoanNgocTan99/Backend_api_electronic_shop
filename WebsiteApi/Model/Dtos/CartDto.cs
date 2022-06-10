@@ -1,4 +1,5 @@
 ﻿using System;
+using WebsiteApi.Model.Entity;
 
 namespace WebsiteApi.Model.Dtos
 {
@@ -18,6 +19,38 @@ namespace WebsiteApi.Model.Dtos
 
         public DateTime? CreatedDate { get; set; }
 
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string Material { get; set; }
+
+        public string Origin { get; set; }
+
+        public decimal Product_Price { get; set; }
+
+        public decimal Del_Price { get; set; }
+
+        public DateTime? WarrantyDate { get; set; }
+
+        public int? Stock { get; set; }
+
+        public int? Discount { get; set; }
+
+        public int? Views { get; set; }
+
+        public int? Rate { get; set; }
+
+        public bool? IsActive { get; set; }
+
         public bool Del { get; set; }
+
+        public long? BrandId { get; set; }
+
+        public long CategoryId { get; set; }
+        public string Avt { get; set; }
+
+        public string Brand { get; set; }
+        public string CategoryName { get; set; }
     }
 }

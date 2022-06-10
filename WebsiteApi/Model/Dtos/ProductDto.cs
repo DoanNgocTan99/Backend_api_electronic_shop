@@ -45,7 +45,7 @@ namespace WebsiteApi.Model.Dtos
         public long? BrandId { get; set; }
 
         public long CategoryId { get; set; }
-        public string Path { get; set; }
+        public string Avt { get; set; }
         public IFormFile ImageFile { get; set; }
 
         public string Brand { get; set; }

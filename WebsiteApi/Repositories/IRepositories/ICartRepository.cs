@@ -9,6 +9,6 @@ namespace WebsiteApi.Repositories.IRepositories
         string Create(Cart cart);
         string Update(int id, Cart cart);
         string Delete(int id);
-
+        int CountProductInCart(int idUser);
     }
 }

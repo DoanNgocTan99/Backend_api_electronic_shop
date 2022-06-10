@@ -6,7 +6,6 @@ using WebsiteApi.Helpers;
 using WebsiteApi.Model.Dtos;
 using WebsiteApi.Services.IServices;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebsiteApi.Controllers
 {
@@ -17,6 +16,11 @@ namespace WebsiteApi.Controllers
         {
             _brandService = brandService;
         }
+
+        /// <summary>
+        /// Lấy toàn bộ brand có trong csdl 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<BrandDto>> Get()
         {
@@ -30,6 +34,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy Brand theo id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<BrandDto> GetById(int id)
         {
@@ -43,6 +52,12 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Tạo mới brand dưới quyền ADMIN
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [Authorize("ADMIN")]
         [HttpPost("Create")]
         public ActionResult<BrandDto> Post([FromBody] BrandDto value)
         {
@@ -56,6 +71,13 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Chỉnh sửa Brand dưới quyền ADMIN
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<BrandDto> Put(int id, [FromBody] BrandDto value)
         {
@@ -69,6 +91,12 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Xóa brand hiện có theo id của Brand được trả về từ Client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize("ADMIN")]
         [HttpDelete("Delete/{id}")]
         public ActionResult<string> Delete(int id)
         {

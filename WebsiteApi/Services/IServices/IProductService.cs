@@ -12,6 +12,8 @@ namespace WebsiteApi.Services.IServices
         string Delete(int id);
         IEnumerable<ProductDto> GetAllByCategory(string categoryName);
         IEnumerable<ProductDto> GetRandom();
+        IEnumerable<ProductDto> GetListProductByCategory(ProductListByCategory value);
+
 
     }
 }

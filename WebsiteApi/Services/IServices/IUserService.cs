@@ -12,6 +12,7 @@ namespace WebsiteApi.Services.IServices
         bool check(string Email = "", string UserName = "", string Phone = "");
         UserDto Update(int id, UserDto user);
         string ChangePassword(int id, string password);
+        string UploadImage(string path);
 
 
     }

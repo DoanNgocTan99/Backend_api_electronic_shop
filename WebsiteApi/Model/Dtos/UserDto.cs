@@ -10,24 +10,20 @@ namespace WebsiteApi.Model.Dtos
 
         public string FullName { get; set; }
 
-        [Required]
         public string UserName { get; set; }
 
         public byte[] PasswordHash { get; set; }
 
         public byte[] PasswordSalt { get; set; }
 
-        [Required]
         public string Email { get; set; }
 
-        [Required]
         public string Phone { get; set; }
 
         public string Gender { get; set; }
 
         public DateTime? DOB { get; set; }
 
-        [Required]
         public string Address { get; set; }
 
         public bool? IsActive { get; set; }

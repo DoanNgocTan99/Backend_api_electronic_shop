@@ -6,5 +6,6 @@ namespace WebsiteApi.Services.IServices
     public interface IProductImageService
     {
         string CreatePath(ProductImageDto value);
+        string UploadImage(string path);
     }
 }

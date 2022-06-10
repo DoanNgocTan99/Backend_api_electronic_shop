@@ -19,6 +19,11 @@ namespace WebsiteApi.Controllers
             _productService = productService;
             _productImageService = productImageService;
         }
+
+        /// <summary>
+        /// Lấy toàn bộ sản phẩm có trong csdl
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<ProductDto>> Get()
         {
@@ -32,6 +37,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy toàn bộ sản phẩm có trong csdl theo Id sản phẩm
+        /// </summary>
+        /// <param name="id"> Id sản phẩm </param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<ProductDto> GetById(int id)
         {
@@ -45,6 +55,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy sản phẩm theo tên danh mục
+        /// </summary>
+        /// <param name="categoryname">Tên danh mục sản phẩm</param>
+        /// <returns></returns>
         [HttpGet("roductRelated/{categoryname}")]
         public ActionResult<ProductDto> GetByCategoryName(string categoryname)
         {
@@ -58,32 +73,52 @@ namespace WebsiteApi.Controllers
             }
         }
 
-        [HttpGet("roductRelated/")]
-        public ActionResult<ProductDto> GetByCategoryName()
+        /// <summary>
+        /// Lấy sản phẩm theo tên danh sách danh mục
+        /// </summary>
+        /// <param name="value">List danh mục sản phẩm</param>
+        /// <returns></returns>
+        [HttpPost("ProductRelated")]
+        public ActionResult<ProductDto> GetProductsByCategoryName(ProductListByCategory value)
         {
             try
             {
-                return Ok(_productService.GetRandom());
+                return Ok(_productService.GetListProductByCategory(value));
             }
             catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        //[Authorize("ADMIN")]
+
+        /// <summary>
+        /// Tạo mới sản phẩm
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [Authorize("ADMIN")]
         [HttpPost("Create")]
-        public ActionResult<ProductDto> Create([FromForm] ProductDto value)
+        public ActionResult<ProductDto> Create([FromBody] ProductDto value)
         {
             try
             {
+                var imagePathLater = string.Empty;
                 var temp = _productService.Create(value);
-                var imagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    var imagePath = this.SaveImage(value.ImageFile);
+                    imagePathLater = _productImageService.UploadImage(imagePath);
+                }
+                else
+                {
+                    imagePathLater = _productImageService.UploadImage(value.Avt);
+                }
                 ProductImageDto pro = new ProductImageDto()
                 {
                     ProductId = temp.Id,
-                    Path = imagePath
+                    Path = imagePathLater
                 };
-                temp.Path = _productImageService.CreatePath(pro);
+                //temp.Path = _productImageService.CreatePath(pro);
                 return Ok(temp);
 
             }
@@ -92,20 +127,40 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Chỉnh sửa sản phẩm. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<ProductDto> Update(int id, [FromBody] ProductDto value)
         {
             try
             {
+                var imagePathLater = string.Empty;
                 var temp = _productService.Update(id, value);
-                var imagePath = this.SaveImage(value.ImageFile);
+                if (value.ImageFile != null)
+                {
+                    var imagePath = this.SaveImage(value.ImageFile);
+                    imagePathLater = _productImageService.UploadImage(imagePath);
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(value.Avt) || string.IsNullOrWhiteSpace(value.Avt))
+                    {
+                        imagePathLater = _productImageService.UploadImage(value.Avt);
+                    }
+                }
+
                 ProductImageDto pro = new ProductImageDto()
                 {
                     ProductId = temp.Id,
-                    Path = imagePath
+                    Path = imagePathLater
                 };
-                temp.Path = _productImageService.CreatePath(pro);
+                //temp.Path = _productImageService.CreatePath(pro);
                 return Ok(temp);
             }
             catch (System.Exception ex)
@@ -113,6 +168,12 @@ namespace WebsiteApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Xóa sản phẩm khỏi csdl
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize("ADMIN")]
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
@@ -127,6 +188,11 @@ namespace WebsiteApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy đường dẫn ảnh để lưu vào csdl
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <returns></returns>
         [NonAction]
         private string SaveImage(IFormFile imageFile)
         {

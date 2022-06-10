@@ -32,7 +32,6 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Path = _productRepository.GetPath(Convert.ToInt32(item.Id));
                 item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
@@ -45,14 +44,13 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Path = _productRepository.GetPath(Convert.ToInt32(item.Id));
                 item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
             int i = 0;
             foreach (var item in productdto)
             {
-                if (item.CategoryName.Contains(categoryName) && i < 5)
+                if (item.CategoryName.Contains(categoryName) && i < 10 )
                 {
                     pro.Add(item);
                     i++;
@@ -67,7 +65,6 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Path = _productRepository.GetPath(Convert.ToInt32(item.Id));
                 item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
@@ -85,7 +82,6 @@ namespace WebsiteApi.Services
         public ProductDto GetById(int id)
         {
             var temp = _mapper.Map<ProductDto>(_productRepository.GetById(id));
-            temp.Path = _productRepository.GetPath(Convert.ToInt32(temp.Id));
             temp.Brand = _productRepository.GetBrand(Convert.ToInt32(temp.BrandId));
             temp.CategoryName = _productRepository.GetCategory(Convert.ToInt32(temp.CategoryId));
             return temp;
@@ -96,6 +92,27 @@ namespace WebsiteApi.Services
             return _mapper.Map<ProductDto>(
                 _productRepository.Update(
                     id, _mapper.Map<Product>(product)));
+        }
+
+        public IEnumerable<ProductDto> GetListProductByCategory(ProductListByCategory value)
+        {
+            List<ProductDto> pro = new List<ProductDto>();
+            var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
+            foreach (var item in productdto)
+            {
+                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
+            }
+            int i = 0;
+            foreach (var item in productdto)
+            {
+                if (item.CategoryName.Contains(value.CategoryName) && i < 10 && item.Id != value.IdProduct)
+                {
+                    pro.Add(item);
+                    i++;
+                }
+            }
+            return pro;
         }
     }
 }
