@@ -38,5 +38,15 @@ namespace WebsiteApi.Services
         {
             return _statisticalRepository.GetFullTopCustomers();
         }
+
+        public IEnumerable<TopCustomerDto> GetTopCustomersByDate(DateExportExcel value)
+        {
+            return _statisticalRepository.GetTopCustomersByDate(value);
+        }
+
+        public IEnumerable<LatestOrder> GetLatestOrdersByDate(DateExportExcel value)
+        {
+            return _statisticalRepository.GetLatestOrdersByDate(value);
+        }
     }
 }
