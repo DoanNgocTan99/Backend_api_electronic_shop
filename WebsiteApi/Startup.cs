@@ -31,24 +31,6 @@ namespace WebsiteApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                //.AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
-
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        //ValidIssuer = Configuration["Jwt:Issuer"],
-                        //ValidAudience = Configuration["Jwt:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]))
-                    };
-                });
-
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -110,6 +92,17 @@ namespace WebsiteApi
             services.AddAutoMapper(typeof(RoleMappings));
             services.AddCors(options =>
             {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:3000", "https://doanngoctan99.github.io")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
+
+            services.AddCors(options =>
+            {
                 options.AddPolicy(name: "AllowOrigin",
                     builder =>
                     {
@@ -118,11 +111,19 @@ namespace WebsiteApi
                                             .AllowAnyMethod();
                     });
             });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]))
+                    };
+                });
             services.AddHttpClient();
-            //services.AddControllers().AddJsonOptions(x =>
-            //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-            //         services.AddControllers().AddJsonOptions(x =>
-            //x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -137,10 +138,22 @@ namespace WebsiteApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
+
+            // with a named pocili
+            app.UseCors("AllowOrigin");
+
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("AllowOrigin");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

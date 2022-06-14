@@ -376,7 +376,7 @@ namespace WebsiteApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("GetFileExcelTEST")]
-        public ActionResult GetFileExcelTEST([FromBody] DateExportExcel value)
+        public ActionResult<string> GetFileExcelTEST([FromBody] DateExportExcel value)
         {
             try
             {
@@ -626,7 +626,7 @@ namespace WebsiteApi.Controllers
                     }
 
                     workbookPart.Workbook.Save();
-                    return Ok(stream.ToArray());
+                    return Ok("Done");
                 }
                 //return Ok("Download excel thành công!!!");
             }
