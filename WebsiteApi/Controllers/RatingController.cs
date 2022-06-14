@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.Json;
 using WebsiteApi.Model.Dtos;
 using WebsiteApi.Services.IServices;
 
@@ -8,59 +11,46 @@ namespace WebsiteApi.Controllers
     public class RatingController : BaseApiController
     {
         private readonly IRatingService _ratingService;
-        public RatingController(IRatingService ratingService)
+        private readonly IHttpClientFactory _factory;
+        private readonly IProductService _productService;
+        public RatingController(IRatingService ratingService, IHttpClientFactory factory, IProductService productService)
         {
             _ratingService = ratingService;
+            _factory = factory;
+            _productService = productService;
         }
 
         /// <summary>
         /// Thực hiện sử dụng Recommend
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [HttpGet("{id}")]
+        public ActionResult<IEnumerable<ProductDto>> Recommend(int id)
         {
             try
             {
-                var list = new List<ProductRating>()
+                List<ProductDto> result = new List<ProductDto>();
+                HttpClient client = _factory.CreateClient();
+                client.BaseAddress = new Uri("https://recommend-api-tandn.herokuapp.com");
+                var response = client.GetAsync(string.Format("/rcm/{0}", id)).Result;
+                string jsonData = response.Content.ReadAsStringAsync().Result;
+                List<int> data = JsonSerializer.Deserialize<List<int>>(jsonData);
+                foreach (var item in data)
                 {
-                   new ProductRating()
-                   {
-                       userId = 6,
-                    productId = 10
-                   },
-                   new ProductRating()
-                   {
-                       userId = 5,
-                    productId = 10
-                   },
-                   new ProductRating()
-                   {
-                       userId = 3,
-                    productId = 10
-                   },
-                   new ProductRating()
-                   {
-                       userId = 4,
-                    productId = 10
-                   },
-                   new ProductRating()
-                   {
-                       userId = 2,
-                    productId = 10
-                   },
-                   new ProductRating()
-                   {
-                       userId = 7,
-                    productId = 10
-                   }
-                };
-                _ratingService.Recommend(list);
-                return Ok(string.Empty);
+                    try
+                    {
+                        result.Add(_productService.GetById(item));
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+                return Ok(result);
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
         }
     }

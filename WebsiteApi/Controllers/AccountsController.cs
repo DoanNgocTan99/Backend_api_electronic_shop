@@ -101,6 +101,45 @@ namespace WebsiteApi.Controllers
                 Token = _tokenService.CreateToken(user)
             });
         }
+
+        /// <summary>
+        /// Tạo nhiều user để thực hiện recommend
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns></returns>
+        [HttpPost("ToolRegistersCreateUsers")]
+        public ActionResult<string> ToolRegistersCreateUsers()
+        {
+            try
+            {
+                for (int i = 101; i <= 400; i++)
+                {
+                    using var hmac = new HMACSHA512();
+
+                    var user = new User
+                    {
+                        UserName = String.Format("DoanNgocTan{0}", i),
+                        PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(String.Format("DoanNgocTan{0}", i))),
+                        PasswordSalt = hmac.Key,
+                        Email = String.Format("DoanNgocTan{0}@gmail.com", i),
+                        Phone = String.Format("077290356", i),
+                        Address = "Quảng Nam",
+                        FullName = String.Format("Đoàn Ngọc Tân {0}", i),
+                        CreatedDate = DateTime.Now,
+                        ImagePath = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdsRv7DIKFauJT3Djb82qGRCv2lpbieAdI9o84elfQ17_k69N_4p2Xd9XCgQzD0Jo351Y&usqp=CAU",
+                        Del = false
+                    };
+                    user.RoleId = _context.Roles.Where(x => string.Equals(x.Name, "USER")).FirstOrDefault().Id;
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
+                }
+                return Ok("Done");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
     }
 }

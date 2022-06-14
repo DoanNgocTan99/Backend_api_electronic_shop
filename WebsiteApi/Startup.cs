@@ -90,6 +90,7 @@ namespace WebsiteApi
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<IStatisticalRepository, StatisticalRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             //RepositoriesSonfigureService 
             services.AddTransient<ITokenService, TokenService>();
@@ -103,6 +104,7 @@ namespace WebsiteApi
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IStatisticalService, StatisticalService>();
             services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<ICommentService, CommentService>();
 
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(RoleMappings));
@@ -111,11 +113,12 @@ namespace WebsiteApi
                 options.AddPolicy(name: "AllowOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:3000", "https://localhost:3000")
+                        builder.WithOrigins("https://localhost:3000", "https://doanngoctan99.github.io")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });
             });
+            services.AddHttpClient();
             //services.AddControllers().AddJsonOptions(x =>
             //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             //         services.AddControllers().AddJsonOptions(x =>
@@ -137,7 +140,6 @@ namespace WebsiteApi
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseCors(options => options.AllowAnyOrigin());
             app.UseCors("AllowOrigin");
             app.UseEndpoints(endpoints =>
             {

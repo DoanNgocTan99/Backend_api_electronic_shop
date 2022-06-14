@@ -186,5 +186,65 @@ namespace WebsiteApi.Repositories
             }
             return result;
         }
+
+        public IEnumerable<TopCustomerDto> GetTopCustomersByDate(DateExportExcel value)
+        {
+            int i = 0;
+            List<TopCustomerDto> result = new List<TopCustomerDto>();
+            var ListUserOrder = _context.Orders.Select(x => x.UserId).Distinct();
+            foreach (var item in ListUserOrder)
+            {
+                if (i < 6)
+                {
+                    var user = new TopCustomerDto();
+                    var listUser = _context.Users.Where(x => x.Id == item).ToArray();
+                    if (listUser != null)
+                    {
+                        user.UserName = listUser[0].UserName;
+                    }
+                    else
+                        continue;
+                    var totalSpendings = _context.Orders.Where(x => x.UserId == item).ToList();
+                    foreach (var temp in totalSpendings)
+                    {
+                        user.TotalSpending += Convert.ToDecimal(temp.Total);
+                    }
+                    user.TotalOrders = totalSpendings.Count;
+
+                    result.Add(user);
+                }
+                i++;
+            }
+            return result;
+        }
+
+        public IEnumerable<LatestOrder> GetLatestOrdersByDate(DateExportExcel value)
+        {
+            List<LatestOrder> result = new List<LatestOrder>();
+            var ListUserOrder = _context.Orders.Where(x => x.CreatedDate >= value.FromDate && x.CreatedDate <= value.ToDate).ToList().OrderByDescending(x => x.CreatedDate);
+            foreach (var item in ListUserOrder)
+            {
+                var user = new LatestOrder();
+                var listUser = _context.Users.Where(x => x.Id == item.UserId).ToArray();
+                if (listUser != null)
+                {
+                    user.UserName = listUser[0].UserName;
+                }
+                else
+                    user.UserName = string.Empty;
+
+                user.OrderId = Convert.ToInt32(item.Id);
+                var order = _context.Orders.Where(x => x.Id == item.Id).FirstOrDefault();
+                user.TotalPrice = Convert.ToDecimal(order.Total);
+                user.Date = Convert.ToDateTime(order.CreatedDate);
+                user.Status = _context.TrackingOrders.Where(x => x.OrderId == item.Id).Select(x => x.Status).FirstOrDefault();
+                if (user.Status == null)
+                {
+                    user.Status = "Unknown";
+                }
+                result.Add(user);
+            }
+            return result;
+        }
     }
 }
