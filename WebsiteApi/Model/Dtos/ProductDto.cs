@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebsiteApi.Model.Dtos
 {
@@ -47,9 +48,11 @@ namespace WebsiteApi.Model.Dtos
         public long CategoryId { get; set; }
         public string Avt { get; set; }
         public IFormFile ImageFile { get; set; }
-
-        public string Brand { get; set; }
+        
         public string  CategoryName { get; set; }
+
+        [NotMapped]
+        public string BrandName { get; set; }
 
     }
 }
