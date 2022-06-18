@@ -32,6 +32,8 @@ namespace WebsiteApi.Model.Entity
 
         public bool Del { get; set; }
 
+        public decimal Product_Price { get; set; }
+
         public virtual Order Order { get; set; }
 
         public virtual Product Product { get; set; }

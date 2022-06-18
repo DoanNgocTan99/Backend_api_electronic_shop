@@ -78,7 +78,6 @@ namespace WebsiteApi.Controllers
         /// <param name="id">Id user</param>
         /// <param name="value">giá trị mới</param>
         /// <returns></returns>
-        [Authorize("ADMIN")]
         [HttpPut("Update/{id}")]
         public ActionResult<int> Update(int id, [FromForm] UserDto value)
         {

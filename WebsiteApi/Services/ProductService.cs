@@ -32,7 +32,7 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.BrandName = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
             return productdto;
@@ -44,7 +44,7 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.BrandName = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
             int i = 0;
@@ -65,7 +65,7 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.BrandName = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
             int i = 0;
@@ -82,7 +82,7 @@ namespace WebsiteApi.Services
         public ProductDto GetById(int id)
         {
             var temp = _mapper.Map<ProductDto>(_productRepository.GetById(id));
-            temp.Brand = _productRepository.GetBrand(Convert.ToInt32(temp.BrandId));
+            temp.BrandName = _productRepository.GetBrand(Convert.ToInt32(temp.BrandId));
             temp.CategoryName = _productRepository.GetCategory(Convert.ToInt32(temp.CategoryId));
             return temp;
         }
@@ -100,7 +100,7 @@ namespace WebsiteApi.Services
             var productdto = _mapper.Map<IEnumerable<ProductDto>>(_productRepository.GetAll());
             foreach (var item in productdto)
             {
-                item.Brand = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
+                item.BrandName = _productRepository.GetBrand(Convert.ToInt32(item.BrandId));
                 item.CategoryName = _productRepository.GetCategory(Convert.ToInt32(item.CategoryId));
             }
             int i = 0;

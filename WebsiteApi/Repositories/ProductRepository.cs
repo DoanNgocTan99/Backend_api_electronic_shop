@@ -128,14 +128,16 @@ namespace WebsiteApi.Repositories
                     throw new IsExist("\" " + product.Name + " \" already exists in the database");
                 }
             }
-            _product.ModifiedDate = DateTime.Now;
+            var temp = _product.Product_Price;
 
+            _product.ModifiedDate = DateTime.Now;
+            
             _product.Name = product.Name;
             _product.Description = product.Description;
             _product.Material = product.Material;
             _product.Origin = product.Origin;
             _product.Product_Price = product.Product_Price;
-            _product.Del_Price = product.Del_Price;
+            _product.Del_Price = temp;
             _product.WarrantyDate = product.WarrantyDate;
             _product.Stock = product.Stock;
             _product.Discount = product.Discount;

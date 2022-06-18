@@ -44,6 +44,15 @@ namespace WebsiteApi.Repositories
                 foreach (var item in listId)
                 {
                     var temp = _cartRepository.GetById(item);
+                    var price_temp = _context.Products.Where(p => p.Id == temp.ProductId).Select(x => x.Product_Price).FirstOrDefault();
+                    var modified_temp = _context.Products.Where(p => p.Id == temp.ProductId).Select(x => x.ModifiedDate).FirstOrDefault();
+                    if (modified_temp != null)
+                    {
+                        if (modified_temp > DateTime.Now )
+                        {
+                            price_temp = _context.Products.Where(p => p.Id == temp.ProductId).Select(x => x.Del_Price).FirstOrDefault();
+                        }
+                    }
                     OrderDetail orderDetail = new OrderDetail()
                     {
                         ModifiedBy = string.Empty,
@@ -54,6 +63,7 @@ namespace WebsiteApi.Repositories
                         Message = String.Empty,
                         OrderId = order.Id,
                         ProductId = temp.ProductId,
+                        Product_Price = price_temp
                     };
                     _context.OrderDetails.Add(orderDetail);
                     _context.SaveChanges();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -10,6 +11,7 @@ using WebsiteApi.Services.IServices;
 
 namespace WebsiteApi.Controllers
 {
+    [EnableCors("AllowOrigin")]
     public class AccountsController : BaseApiController
     {
         private readonly ApiContext _context;
