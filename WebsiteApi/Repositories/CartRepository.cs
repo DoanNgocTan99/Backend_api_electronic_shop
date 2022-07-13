@@ -46,12 +46,14 @@ namespace WebsiteApi.Repositories
 
         public string Delete(int id)
         {
-            var carts = _context.Carts.Where(x => x.UserId == id).ToList();
-            if (carts.Count == 0)
-                throw new IsNotExist("");
-            foreach (var item in carts)
+            var carts = _context.Carts.Where(x => x.Id == id).FirstOrDefault();
+            if (carts != null)
             {
-                _context.Carts.Remove(item);
+                _context.Carts.Remove(carts);
+            }
+            else
+            {
+                throw new IsNotExist("Cart Don't Exist");
             }
             _context.SaveChanges();
             return "Delete successful";
